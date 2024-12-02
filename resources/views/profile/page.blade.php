@@ -52,10 +52,10 @@
                 </div>
                 <div class="row justify-content-center">
                     @foreach ($user->tracks as $track)
-                    <div class="col-12 col-md-6">
+                    <div class="col-12 col-md-3">
                         <div class="card">
                             <div class="text-center">
-                                <img src="{{Storage::url($track->cover)}}" alt="{{$track->title}}" width="300" class="p-3 rounded-pill">
+                                <img src="{{Storage::url($track->cover)}}" alt="{{$track->title}}" width="200" class="p-3 rounded-pill">
                             </div>
                         
                             <div class="card-body">

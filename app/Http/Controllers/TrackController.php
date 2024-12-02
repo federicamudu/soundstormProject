@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Track;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
 class TrackController extends Controller implements HasMiddleware
 {
     public static function middleware(){
         return [
-            new Middleware('auth', except: ['index'])
+            new Middleware('auth', except: ['index', 'searchByUser'])
         ];
     }
     
@@ -21,7 +22,8 @@ class TrackController extends Controller implements HasMiddleware
      */
     public function index()
     {
-        //
+        $tracks = Track::orderBy('created_at', 'desc')->get();
+        return view('track.index', compact('tracks'));
     }
 
     /**
@@ -84,5 +86,10 @@ class TrackController extends Controller implements HasMiddleware
     public function destroy(Track $track)
     {
         //
+    }
+
+    public function filterByUser(User $user){
+        $tracks = Track::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
+        return view('track.searchByUser', compact('tracks', 'user'));
     }
 }
