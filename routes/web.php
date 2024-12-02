@@ -30,3 +30,4 @@ Route::get('/admin/dashboard/genres', [AdminController::class, 'genres'])->name(
 Route::post('/admin/dashboard/genres/store', [AdminController::class, 'store'])->name('admin.dashboard.genres.store');
 Route::put('/admin/dashboard/genres/{genre}/update', [AdminController::class, 'update'])->name('admin.dashboard.genres.update');
 Route::delete('/admin/dashboard/genres/{genre}/delete', [AdminController::class, 'delete'])->name('admin.dashboard.genres.delete');
+Route::get('/musica/tutti-i-brani/{genre}/genere', [TrackController::class, 'filterByGenre'])->name('track.filterByGenre');

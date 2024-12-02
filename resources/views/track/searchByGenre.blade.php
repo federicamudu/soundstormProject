@@ -3,7 +3,7 @@
         <div class="row justify-content-center">
             <div class="col-12">
                 <h2 class="display-1 text-uppercase">
-                    tutti i brani
+                    tutti i brani {{$genre->name}}
                 </h2>
             </div>
         </div>

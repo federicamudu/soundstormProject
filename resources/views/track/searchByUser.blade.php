@@ -12,22 +12,7 @@
         <div class="row justify-content-center">
             @foreach ($tracks as $track)
             <div class="col-12 col-md-3">
-                <div class="card">
-                    <div class="text-center">
-                        <img src="{{Storage::url($track->cover)}}" alt="{{$track->title}}" width="200" class="p-3 rounded-pill">
-                    </div>
-
-                    <div class="card-body">
-                        <h5 class="card-title">{{$track->title}}</h5>
-                        <p class="card-text">{{$track->description}}</p>
-                        <div>
-                            <audio class="w-100" controls>
-                                <source src="{{Storage::url($track->path)}}" type="audio/mpeg">
-                                Your browser does not support the audio element.
-                            </audio>
-                        </div>
-                    </div>
-                </div>
+            <x-card :track="$track"></x-card>
             </div>
             @endforeach
         </div>
