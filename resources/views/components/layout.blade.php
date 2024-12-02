@@ -6,9 +6,11 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>Document</title>
 </head>
-<body class="min-vh-100">
+<body>
     <x-navbar></x-navbar>
-    {{ $slot }}
+    <div class="min-vh-100">
+        {{ $slot }}
+    </div>
     <x-footer></x-footer>
 </body>
 </html>

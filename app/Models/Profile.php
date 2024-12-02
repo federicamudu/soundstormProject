@@ -17,7 +17,8 @@ class Profile extends Model
         'region',
         'country',
         'zip_code',
-        'mobile_number'
+        'mobile_number',
+        'is_admin'
     ];
 
     public function user(){

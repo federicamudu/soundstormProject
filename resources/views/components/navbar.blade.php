@@ -1,4 +1,4 @@
-<div class="container fixed-top border-bottom border-black g-0">
+<div class="container sticky-top border-bottom border-black g-0">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container">
             <a class="navbar-brand" href="{{route('homepage')}}">SoundS</a>
@@ -23,6 +23,9 @@
                     </a>
                     <ul class="dropdown-menu">
                         <li><a class="dropdown-item" href="{{route('profile.page')}}">Profilo</a></li>
+                        @if(auth()->user()->isAdmin())
+                            <li><a class="dropdown-item" href="{{route('admin.dashboard')}}">Dashboard</a></li>
+                        @endif
                         <li>
                             <hr class="dropdown-divider">
                         </li>
