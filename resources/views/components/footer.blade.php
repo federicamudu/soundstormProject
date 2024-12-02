@@ -1,4 +1,4 @@
-<div class="container my-5 fixed-bottom">
+<div class="container mt-5 fixed-bottom border-top border-black g-0">
 
     <footer class="text-center text-white" style="background-color: #f1f1f1;">
         <!-- Grid container -->

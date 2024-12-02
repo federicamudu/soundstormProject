@@ -1,4 +1,4 @@
-<div class="container fixed-top">
+<div class="container fixed-top border-bottom border-black g-0">
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <a class="navbar-brand" href="{{route('homepage')}}">SoundS</a>
@@ -14,9 +14,31 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#">Features</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                @auth
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Ciao {{Auth::user()->name}}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">Profilo</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#" onclick="event.preventDefault(); document.querySelector('#logout-form').submit()">Logout</a></li>
+                        <form action="{{route('logout')}}" method="POST" id="logout-form" class="d-none">@csrf</form>
+                    </ul>
                 </li>
+                @else
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Benvenuto
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{route('login')}}">Accedi</a></li>
+                        <li><a class="dropdown-item" href="{{route('register')}}">Registrati</a></li>
+                    </ul>
+                </li>
+                @endauth
             </ul>
         </div>
     </nav>

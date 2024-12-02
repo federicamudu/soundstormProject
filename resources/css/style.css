@@ -1,0 +1,20 @@
+.custom-file-button input[type=file] {
+    margin-left: -2px !important;
+    color: transparent !important;
+}
+
+.custom-file-button input[type=file]::-webkit-file-upload-button {
+    display: none;
+    color: transparent !important;
+}
+
+.custom-file-button input[type=file]::file-selector-button {
+    display: none;
+    color: transparent !important;
+}
+
+.custom-file-button:hover label {
+    background-color: #dde0e3;
+    cursor: pointer;
+    color: transparent !important;
+}
