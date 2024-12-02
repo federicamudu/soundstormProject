@@ -4,11 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\HasMiddleware;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
-class ProfileController extends Controller
+class ProfileController extends Controller implements HasMiddleware
 {
+    public static function middleware(){
+        return ['auth'];
+    }
     public function page(){
         $user = Auth::user();
         return view('profile.page', compact('user'));

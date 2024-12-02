@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Track;
 use App\Models\Profile;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -48,5 +49,8 @@ class User extends Authenticatable
     }
     public function profile(){
         return $this->hasOne(Profile::class);
+    }
+    public function tracks(){
+        return $this->hasMany(Track::class);
     }
 }
