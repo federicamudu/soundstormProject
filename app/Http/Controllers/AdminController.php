@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Genre;
 use App\Models\User;
+use App\Models\Genre;
 use App\Models\Track;
+use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
@@ -20,7 +22,23 @@ class AdminController extends Controller implements HasMiddleware
         if(!auth()->user()->isAdmin()){
             abort(403, 'Non autorizzato');
         }
-        return view('admin.dashboard');
+        $users=User::all();
+        $tracks=Track::all();
+        $usersCount = User::all()->count();
+        $tracksCount = Track::all()->count();
+        $tracksSize=0;
+        foreach($tracks as $track){
+            $tracksSize+= Storage::disk('public')->size($track->path);
+        }
+        $tracksSize=number_format($tracksSize/1000000, 2, ',');
+        //metriche temporali
+        $now= CarbonImmutable::now();
+        $previousWeek=$now->subWeek();
+        $firstWeekDay=$previousWeek->startOfWeek();
+        $lastWeekDay=$previousWeek->endOfWeek();
+        $lastWeekUsers=$users->whereBetween('created_at', [$firstWeekDay, $lastWeekDay])->count();
+        $lastWeekTracks=$tracks->whereBetween('created_at', [$firstWeekDay, $lastWeekDay])->count();
+        return view('admin.dashboard', compact('usersCount', 'tracksCount', 'tracksSize', 'lastWeekUsers', 'lastWeekTracks'));
     }
     public function users(){
         if(!auth()->user()->isAdmin()){
