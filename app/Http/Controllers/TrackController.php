@@ -2,22 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Genre;
 use App\Models\User;
+use App\Models\Genre;
 use App\Models\Track;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\DownloadNotificationMail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Routing\Controllers\Middleware;
 use Illuminate\Routing\Controllers\HasMiddleware;
 
 class TrackController extends Controller implements HasMiddleware
 {
-    public static function middleware(){
+    public static function middleware()
+    {
         return [
             new Middleware('auth', except: ['index', 'searchByUser'])
         ];
     }
-    
+
     /**
      * Display a listing of the resource.
      */
@@ -32,7 +36,7 @@ class TrackController extends Controller implements HasMiddleware
      */
     public function create()
     {
-        $genres=Genre::all();
+        $genres = Genre::all();
         return view('track.create', compact('genres'));
     }
 
@@ -48,7 +52,7 @@ class TrackController extends Controller implements HasMiddleware
             'path' => 'required|file|mimes:mp3,wav,aac',
             'genres' => 'required'
         ]);
-        $track =Track::create([
+        $track = Track::create([
             'title' => $request->title,
             'cover' => $request->file('cover')->store('covers', 'public'),
             'description' => $request->description,
@@ -74,10 +78,10 @@ class TrackController extends Controller implements HasMiddleware
      */
     public function edit(Track $track)
     {
-        if(!$track->authIsCreator()){
+        if (!$track->authIsCreator()) {
             abort(403, 'Non sei autorizzato');
         }
-        $genres=Genre::all();
+        $genres = Genre::all();
         return view('track.edit', compact('track', 'genres'));
     }
 
@@ -95,7 +99,7 @@ class TrackController extends Controller implements HasMiddleware
             'title' => $request->title,
             'description' => $request->description,
         ]);
-        if($request->cover){
+        if ($request->cover) {
             $request->validate([
                 'cover' => 'image'
             ]);
@@ -103,7 +107,7 @@ class TrackController extends Controller implements HasMiddleware
                 'cover' => $request->file('cover')->store('covers', 'public')
             ]);
         }
-        if($request->path){
+        if ($request->path) {
             $request->validate([
                 'path' => 'file|mimes:mp3,wav,aac'
             ]);
@@ -125,13 +129,23 @@ class TrackController extends Controller implements HasMiddleware
         return redirect()->route('profile.page')->with('success', 'Track eliminata');
     }
 
-    public function filterByUser(User $user){
+    public function filterByUser(User $user)
+    {
         $tracks = Track::where('user_id', $user->id)->orderBy('created_at', 'desc')->get();
         return view('track.searchByUser', compact('tracks', 'user'));
     }
 
-    public function filterByGenre(Genre $genre){
+    public function filterByGenre(Genre $genre)
+    {
         $tracks = $genre->tracks->sortByDesc('created_at');
         return view('track.searchByGenre', compact('tracks', 'genre'));
+    }
+    public function download(Track $track)
+    {
+        $email=$track->user->email;
+        $username=$track->user->name;
+        $trackTitle=$track->title;
+        Mail::to($email)->send(new DownloadNotificationMail($username, $trackTitle));
+        return Storage::disk('public')->download($track->path);
     }
 }

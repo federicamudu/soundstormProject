@@ -1,11 +1,14 @@
 <div class="card">
     <div class="card-header text-body-secondary small text-center">
-        <a href="{{route('track.edit', compact('track'))}}" class="btn btn-sm btn-warning">Modifica</a>
+        <a href="{{route('track.edit', compact('track'))}}" class="btn btn-sm btn-warning"><i class="bi bi-pencil-square"></i></a>
         <form action="{{route('track.destroy', compact('track'))}}" class="d-inline" method="POST" onclick="return confirm('Sicuro di voler cancellare questo brano?')">
             @csrf
             @method('DELETE')
-            <button type="submit" class="btn btn-sm btn-danger">Elimina</button>
+            <button type="submit" class="btn btn-sm btn-danger"><i class="bi bi-trash3"></i></button>
         </form>
+
+        <a href="{{route('track.download', compact('track'))}}" class="btn btn-sm btn-primary"><i class="bi bi-cloud-download"></i></a>
+
     </div>
     <div class="text-center">
         <img src="{{Storage::url($track->cover)}}" alt="{{$track->title}}" width="200" class="p-3 rounded-pill">

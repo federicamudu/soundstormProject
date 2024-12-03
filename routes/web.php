@@ -24,6 +24,7 @@ Route::get('/musica/tutti-i-brani/{genre}/genere', [TrackController::class, 'fil
 Route::get('/musica/aggiorna/{track}/brano', [TrackController::class, 'edit'])->name('track.edit');
 Route::put('/musica/aggiorna/{track}/brano', [TrackController::class, 'update'])->name('track.update');
 Route::delete('/musica/elimina/{track}/brano', [TrackController::class, 'destroy'])->name('track.destroy');
+Route::get('/musica/scarica/{track}/brano', [TrackController::class, 'download'])->name('track.download');
 
 //rotte admin
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
