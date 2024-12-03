@@ -23,4 +23,7 @@ class Track extends Model
     public function genres(){
         return $this->belongsToMany(Genre::class);
     }
+    public function authIsCreator(){
+        return $this->user == auth()->user();
+    }
 }

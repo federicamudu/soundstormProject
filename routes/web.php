@@ -20,7 +20,10 @@ Route::post('/musica/crea', [TrackController::class, 'store'])->name('track.stor
 
 Route::get('/musica/tutti-i-brani', [TrackController::class, 'index'])->name('track.index');
 Route::get('/musica/tutti-i-brani/{user}/autore', [TrackController::class, 'filterByUser'])->name('track.filterByUser');
-
+Route::get('/musica/tutti-i-brani/{genre}/genere', [TrackController::class, 'filterByGenre'])->name('track.filterByGenre');
+Route::get('/musica/aggiorna/{track}/brano', [TrackController::class, 'edit'])->name('track.edit');
+Route::put('/musica/aggiorna/{track}/brano', [TrackController::class, 'update'])->name('track.update');
+Route::delete('/musica/elimina/{track}/brano', [TrackController::class, 'destroy'])->name('track.destroy');
 
 //rotte admin
 Route::get('/admin/dashboard', [AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -30,4 +33,3 @@ Route::get('/admin/dashboard/genres', [AdminController::class, 'genres'])->name(
 Route::post('/admin/dashboard/genres/store', [AdminController::class, 'store'])->name('admin.dashboard.genres.store');
 Route::put('/admin/dashboard/genres/{genre}/update', [AdminController::class, 'update'])->name('admin.dashboard.genres.update');
 Route::delete('/admin/dashboard/genres/{genre}/delete', [AdminController::class, 'delete'])->name('admin.dashboard.genres.delete');
-Route::get('/musica/tutti-i-brani/{genre}/genere', [TrackController::class, 'filterByGenre'])->name('track.filterByGenre');
